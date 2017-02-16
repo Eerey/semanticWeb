@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
+import org.apache.jena.base.Sys;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
@@ -21,7 +22,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 public class Tutorial {
 	public static void main(String args[]) {
 		System.out.println("Application started.");
-		alterSystemOut(true);
+//		alterSystemOut(true);
 		createExampleOntology();
 //		createExampleModel();
 	}
@@ -47,12 +48,34 @@ public class Tutorial {
 			ExtendedIterator classIter = model.listClasses();
 			while (classIter.hasNext()) {
 				OntClass ontClass = (OntClass) classIter.next();
-				String uriClass = ontClass.getURI();
-				if (uriClass!=null)
-					System.out.println(uriClass);
-			}
-
-		} catch (Exception e){
+				String uriClassString = "";
+				String uriDisjointWith = "";
+				String uriLabel = "";
+				ExtendedIterator ei = null;
+				try{
+				uriClassString = ontClass.getURI();
+				uriDisjointWith = (ontClass.getDisjointWith().getURI()==null)? "damn it's null":ontClass.getDisjointWith().getURI();
+				ei = (ontClass.listDeclaredProperties()) == null? null:ontClass.listDeclaredProperties();
+				}
+				catch (NullPointerException e){
+//					System.out.println("none");
+				}
+				if (uriClassString!=null&null!=uriDisjointWith)
+					System.out.println("Class: "+ uriClassString);
+//					System.out.println(uriDisjointWith);
+//					System.out.println(uriLabel);
+					if (ei!=null)while(ei.hasNext())
+					{
+						String current = ei.next().toString();
+//						System.out.println("Property: " + current.split("#")[1]);
+						Resource r=model.getResource(current);
+						System.out.println("Property ("+uriClassString.split("#")[1]+"): " + r.getLocalName());
+					} else{
+						System.out.println("no Properties left");
+					}
+				}
+				
+			} catch (Exception e){
 			e.printStackTrace();
 		}
 			
