@@ -20,6 +20,6 @@ public class Example01 {
 		model.add(alice, FOAF.mbox, ResourceFactory.createResource("mailto:alice@example.org"));
 		model.add(alice, FOAF.knows, bob);
 
-		model.write(System.out, "TURTLE");
+		model.write(System.out, "RDF/JSON");
 	}
 }

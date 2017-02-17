@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:j.0="http://ontology/test#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Class rdf:about="http://ontology/test#Animal"/>
+  <owl:Class rdf:about="http://ontology/test#Doge">
+    <j.0:loudness>yes2</j.0:loudness>
+    <rdfs:subClassOf rdf:resource="http://ontology/test#Animal"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://ontology/test#Doberman">
+    <owl:disjointWith>
+      <owl:Class rdf:about="http://ontology/test#ShibaInu"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf rdf:resource="http://ontology/test#Doge"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://ontology/test#muzzle"/>
+  <owl:Class rdf:about="http://ontology/test#ShibaInu">
+    <owl:disjointWith rdf:resource="http://ontology/test#Doberman"/>
+    <rdfs:subClassOf rdf:resource="http://ontology/test#Doge"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://ontology/test#canBarkWith">
+    <rdfs:label xml:lang="de">Kann bellen. Wuff!</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/test#muzzle"/>
+    <rdfs:domain rdf:resource="http://ontology/test#Doge"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://ontology/test#loudness">
+    <rdfs:label xml:lang="de">Kann bellen. Wuff!</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://ontology/test#Doge"/>
+  </owl:DatatypeProperty>
+</rdf:RDF>
