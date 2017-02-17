@@ -68,7 +68,7 @@ public class OntologyHelper {
 		op_canBark.addRange(createClass("muzzle"));
 		op_canBark.addLabel("Kann bellen. Wuff!","de");
 		
-		DatatypeProperty dp_name = createDatatypeProperty("loudness");
+		DatatypeProperty dp_name = createDatatypeProperty("dogName");
 		dp_name.addDomain(doge);
 		dp_name.setRange(XSD.xstring); // com.hp.hpl.jena.vocabulary.XSD
 		dp_name.addLabel("Kann bellen. Wuff!","de");
