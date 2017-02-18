@@ -7,6 +7,7 @@ public class TextConcept {
 	public String className;
 	public ArrayList<TextConceptAbstractProperty<?>> properties;
 	public boolean isIndividual;
+	public String individualName;
 	public TextVerb verb;
 	public boolean verbIsInverse;
 	public ArrayList<TextConcept> referenceConcept;

@@ -6,12 +6,8 @@ import org.jsoup.nodes.Element;
 
 public class WordAnalyzer {
 
-	public static void main(String[] args) {
-		// checkIfHumanName("Marwin");
-		// findVerb("tanzten");
-	}
-
-	public static TextConcept checkIfHumanName(String input) {
+	public boolean checkIfExistingName(String input) {
+		sleep(1);
 		Document namepedia = null;
 		try {
 			namepedia = Jsoup.connect("http://www.namepedia.org/en/firstname/" + input).get();
@@ -20,48 +16,45 @@ public class WordAnalyzer {
 		try {
 			String gender = namepedia.select("#gender").get(0).text();
 			String name = namepedia.select(".namerecord").get(0).text().split("First name: ")[1];
-			System.out.println(">>" + gender + "<< was identified as the gender");
-			System.out.println(">>" + name + "<< was identified as a name");
-			TextConcept concept = new TextConcept("Person");
-			concept.isIndividual = true;
-			concept.properties.add(new TextConceptDatatypeProperty("sex", concept.className, "String"));
-			return concept;
+			System.out.println(">>" + name + "("+gender+")<< was identified as a name");
+//			TextConcept concept = new TextConcept("Person");
+//			concept.isIndividual = true;
+//			concept.properties.add(new TextConceptDatatypeProperty("sex", concept.className, "String"));
+//			return concept;
+			return true;
 		} catch (Exception e) {
-			System.out.println(">>" + input + "<< is NOT a named or was NOT found");
+			System.out.println(">>" + input + "<< is NOT a name or was NOT found");
 		}
-		return null;
-
+		return false;
 	}
-
-	public static TextVerb findVerb(String input) {
-		// TODO: statt String ein TextVerb mit Konjunktion etc.
-		
+	
+	public TextVerb findVerb(String input) {
+		if (input.length()==1) return null;
+		sleep(1);
 		Document wiktionary = null;
 		try {
-			wiktionary = Jsoup.connect("https://en.wiktionary.org/wiki/" + input).get();
-		} catch (Exception e) {
-		}
-		try {
-			// String gender = namepedia.select("#gender").get(0).text();
-			// String name =
-			// wiktionary.select("a:contains(Flexion)").get(0).text().split("Flexion:")[1];
-
-			// search id "Verb"
-			// gib parent
-			// gib zweitnächste Element
-			// selektiere a
-//			Element element = wiktionary.select("ol li a").get(0);
-			Element element = wiktionary.select("#Verb").parents().next().next().select("ol").select("a").get(0);
+			wiktionary = Jsoup.connect("http://conjugator.reverso.net/conjugation-english-verb-"+input+".html").get();
+			Element element = wiktionary.select("#ch_lblVerb").get(0);
 			if (element != null) {
 				String name = element.text();
 				System.out.println(">>" + name + "<< was identified as the infinitive of " + input);
 				TextVerb verb = new TextVerb();
+				verb.infinitive =name;
+				return verb;
 			}else throw new Exception();
 		} catch (Exception e) {
-			System.out.print("EXCEPTION (probably NullPointer) ");
 			System.out.println(">>" + input + "<< is not a verb");
+			System.out.println(e.getMessage());
 		}
 		return null;
-
+	}
+	
+	public static void sleep(int seconds){
+		try {
+			Thread.sleep(seconds*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

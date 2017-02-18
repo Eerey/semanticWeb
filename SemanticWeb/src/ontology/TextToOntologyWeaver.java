@@ -8,7 +8,9 @@ public class TextToOntologyWeaver {
 	public OntologyHelper ontology;
 	
 	public TextToOntologyWeaver(String input){
+		TextParser textParser = new TextParser();
 //		this.ontology = new OntologyHelper();
-		this.sentences = TextParser.splitSentences(input); //kann bis jetzt nur einen Satz
+		this.sentences = textParser.splitSentences(input); //kann bis jetzt nur einen Satz
 	}
+	
 }

@@ -75,7 +75,7 @@ public class OntologyHelper {
 		shibaInu.setDisjointWith(doberman);
 		doberman.setDisjointWith(shibaInu);
 		// doberman.setDisjointWith(animal);
-		// createIndividual("Doberman", "MasterBlaster");
+		createIndividual("Doberman", "MasterBlaster");
 
 		// model.createStatement(doge,bark,"Loud Bark");
 
