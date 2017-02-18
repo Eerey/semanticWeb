@@ -7,7 +7,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
   <owl:Class rdf:about="http://ontology/test#Animal"/>
   <owl:Class rdf:about="http://ontology/test#Doge">
-    <j.0:dogName>yes2</j.0:dogName>
+    <j.0:dogName>beschreibender Kram</j.0:dogName>
     <rdfs:subClassOf rdf:resource="http://ontology/test#Animal"/>
   </owl:Class>
   <owl:Class rdf:about="http://ontology/test#Doberman">
