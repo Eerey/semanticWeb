@@ -1,5 +1,8 @@
 package ontology;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class TextSentencePattern {
@@ -10,7 +13,8 @@ public class TextSentencePattern {
 		 
 	}
 	public String findPattern(String sentence){
-		if (sentence.contains("is a")) return "ownership";
+		checkForName();
+		if (sentence.contains("is a")) return "ownership"; //was ist mit namen und individuals?
 		if (sentence.contains("owns a")) return "ownership";
 		if (sentence.contains("is owned by")) return "ownership";
 		if (sentence.contains("is a species of")) return "hierarchySubclass";
@@ -18,6 +22,9 @@ public class TextSentencePattern {
 		if (sentence.contains("is a specification of")) return "hierarchySubclass";
 		if (sentence.contains("is a superclass of")) return "hierarchySuperclass";
 		return null;
+	}
+	public void checkForName(){
+
 	}
 	
 	
