@@ -8,7 +8,6 @@
   <owl:Class rdf:about="http://ontology/test#Animal"/>
   <owl:Class rdf:about="http://ontology/test#Doge">
     <j.0:dogName>yes2</j.0:dogName>
-    <owl:equivalentClass rdf:resource="http://ontology/test#Animal"/>
     <rdfs:subClassOf rdf:resource="http://ontology/test#Animal"/>
   </owl:Class>
   <owl:Class rdf:about="http://ontology/test#Doberman">
