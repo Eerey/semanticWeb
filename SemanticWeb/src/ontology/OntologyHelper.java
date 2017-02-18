@@ -30,10 +30,6 @@ public class OntologyHelper {
 	ArrayList<Resource> resources = null;
 	ArrayList<OntClass> classes = null;
 
-	public static void main(String[] args) {
-		OntologyHelper o = new OntologyHelper();
-	}
-
 	public OntologyHelper() {
 		initOntologyModel();
 		testSequence01();
