@@ -32,6 +32,8 @@ public class TextSentenceProcessor {
 
 			// determine subject
 			determineSubject(textSentence);
+			//findet das erste Nomen, sollte aber einen zusammenhängenden Terminus wie "Marwin Lebensky" erkennen können
+			
 			// determine verb/predicate
 			determineVerb(textSentence);
 			// determine object
@@ -65,6 +67,12 @@ public class TextSentenceProcessor {
 				textSentence.subject.className = word.word;
 				processPossibleIndividuals(textSentence.subject);
 				System.out.println("Subject found: " + textSentence.subject.className);
+				int temp = textSentence.taggedWords.lastIndexOf(word);
+				temp++;
+				System.out.println(textSentence.taggedWords.get(temp));
+				
+				
+				
 				textSentence.taggedWords.remove(word);
 				break;
 			}
@@ -85,7 +93,7 @@ public class TextSentenceProcessor {
 
 	private void determineObject(TextSentence textSentence) {
 		for (TextWord word : textSentence.taggedWords) {
-			if (word.tag.contains("NN")) {
+			if (word.tag.contains("NN") || word.tag.contains("NNP")) {
 				textSentence.object = new TextConcept();
 				textSentence.object.className = word.word;
 				processPossibleIndividuals(textSentence.object);
