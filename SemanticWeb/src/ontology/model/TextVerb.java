@@ -8,5 +8,6 @@ public class TextVerb {
 	public boolean plural;
 	public String tense;
 	public String infinitive;
+	public String originalVerb;
 	
 }

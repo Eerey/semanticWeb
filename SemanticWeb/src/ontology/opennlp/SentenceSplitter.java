@@ -34,7 +34,6 @@ public class SentenceSplitter {
 		ArrayList<TextSentence> textSentences = new ArrayList<>();
 	    for(String sentence : sentences){
 	    	TextSentence textSentence = new TextSentence(sentence);
-	    	textSentence.taggedWords = wordTokenizer.tokenizeText(sentence);
 	    	textSentences.add(textSentence);
 	    }
 		

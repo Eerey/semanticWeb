@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
@@ -13,28 +14,19 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import org.apache.jena.vocabulary.XSD;
 
 public class OntologyHelper {
 
-	// public final String nameSpace = "http://example.com/example#";
-	// public final String nameSpace =
-	// "http://protege.stanford.edu/ontologies/pizza/pizza.owl#";
 	public final String nameSpace = "http://ontology/test#";
 	public OntModel model;
-	ArrayList<Resource> resources = null;
+	public HashMap<String,Resource> resources;
 	ArrayList<OntClass> classes = null;
 
 	public OntologyHelper() {
+		resources = new HashMap<>();
 		initOntologyModel();
-		testSequence01();
-		printOntology();
-		writeOntologyToDisk();
 	}
 
 	public void initOntologyModel() {
@@ -47,42 +39,10 @@ public class OntologyHelper {
 		}
 	}
 
-	public void testSequence01() {
-		OntClass animal = createClass("Animal");
-		OntClass doge = createClass("Doge");
-		OntClass shibaInu = createClass("ShibaInu");
-		OntClass doberman = createClass("Doberman");
-		getClass("Animal").addSubClass(doge);
-		getClass("Doge").addSubClass(shibaInu);
-		getClass("Doge").addSubClass(doberman);
-
-		ObjectProperty op_canBark = createObjectProperty("canBarkWith");
-		op_canBark.addDomain(doge);
-		op_canBark.addRange(createClass("muzzle"));
-		op_canBark.addLabel("Kann bellen. Wuff!", "de");
-
-		DatatypeProperty dp_name = createDatatypeProperty("dogName");
-		dp_name.addDomain(doge);
-		dp_name.setRange(XSD.xstring); // com.hp.hpl.jena.vocabulary.XSD
-		dp_name.addLabel("Kann bellen. Wuff!", "de");
-
-		doge.addProperty(dp_name, "beschreibender Kram");
-
-		shibaInu.setDisjointWith(doberman);
-		doberman.setDisjointWith(shibaInu);
-		// doberman.setDisjointWith(animal);
-		createIndividual("Doberman", "MasterBlaster");
-
-		// model.createStatement(doge,bark,"Loud Bark");
-
-		// Statement stmt = iter.nextStatement(); // get next statement
-		// Resource subject = stmt.getSubject(); // get the subject
-		// Property predicate = stmt.getPredicate(); // get the predicate
-		// RDFNode object = stmt.getObject(); // get the object
-	}
-
 	public ObjectProperty createObjectProperty(String objectPropertyName) {
-		return model.createObjectProperty(nameSpace + objectPropertyName);
+		ObjectProperty objectProperty = model.createObjectProperty(nameSpace + objectPropertyName);
+		resources.put(objectPropertyName, objectProperty);
+		return objectProperty;
 	}
 
 	public Property createProperty(String propertyName) {
@@ -90,48 +50,22 @@ public class OntologyHelper {
 	}
 
 	public DatatypeProperty createDatatypeProperty(String datatypePropertyName) {
-		return model.createDatatypeProperty(nameSpace + datatypePropertyName);
+		DatatypeProperty datatypeProperty = model.createDatatypeProperty(nameSpace + datatypePropertyName);
+		resources.put(datatypePropertyName, datatypeProperty);
+		return datatypeProperty;
+		
 	}
-
-	/**
-	 * 0: "RDF/XML-ABBREV" <BR>
-	 * 1: "N-Triples" <BR>
-	 * 2: "TriG" <BR>
-	 * 3: "N-Quads" <BR>
-	 * 4: "TURTLE" <BR>
-	 * 5: "RDF/JSON" <BR>
-	 */
-	public void printOntology(int i) {
-		switch (i) {
-		case 0:
-			model.write(System.out, "RDF/XML-ABBREV");
-			break;
-		case 1:
-			model.write(System.out, "N-Triples");
-			break;
-		case 2:
-			model.write(System.out, "TriG");
-			break;
-		case 3:
-			model.write(System.out, "N-Quads");
-			break;
-		case 4:
-			model.write(System.out, "TURTLE");
-			break;
-		case 5:
-			model.write(System.out, "RDF/JSON");
-			break;
-		}
-	}
+	
 
 	public void printOntology() {
 		model.write(System.out, "RDF/XML-ABBREV");
 	}
 
 	public Individual createIndividual(String className, String individualName) {
-		OntClass foo = model.getOntClass(nameSpace + className);
-		Individual fubar = foo.createIndividual(nameSpace + individualName);
-		return fubar;
+		OntClass ontClass = model.getOntClass(nameSpace + className);
+		Individual individual = ontClass.createIndividual(nameSpace + individualName);
+		resources.put(className+"_"+individualName, individual);
+		return individual;
 	}
 
 	/**
@@ -142,11 +76,12 @@ public class OntologyHelper {
 	 */
 	public OntClass createClass(String className) {
 		OntClass ontClass = model.createClass(nameSpace + className);
+		resources.put(className, ontClass);
 		return ontClass;
 	}
 
-	public OntClass getClass(String className) {
-		return model.getOntClass(nameSpace + className);
+	public Resource getResource(String key) {
+		return resources.get(key);
 	}
 
 	public void writeOntologyToDisk() {
@@ -168,28 +103,6 @@ public class OntologyHelper {
 				} catch (IOException ignore) {
 				}
 			}
-		}
-	}
-
-	public void readAllStatements() {
-		// list the statements in the Model
-		StmtIterator iter = model.listStatements();
-		// print out the predicate, subject and object of each statement
-		while (iter.hasNext()) {
-			Statement stmt = iter.nextStatement(); // get next statement
-			Resource subject = stmt.getSubject(); // get the subject
-			Property predicate = stmt.getPredicate(); // get the predicate
-			RDFNode object = stmt.getObject(); // get the object
-
-			System.out.print(subject.toString());
-			System.out.print(" " + predicate.toString() + " ");
-			if (object instanceof Resource) {
-				System.out.print(object.toString());
-			} else {
-				// object is a literal
-				System.out.print(" \"" + object.toString() + "\"");
-			}
-			System.out.println(" .");
 		}
 	}
 
