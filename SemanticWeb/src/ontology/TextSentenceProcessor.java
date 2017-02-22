@@ -30,13 +30,14 @@ public class TextSentenceProcessor {
 		personNameFinder = NameFinder.getPersonNameFinder();
 	}
 
+	
 	public void process(String text) {
 		textSentences = sentenceSplitter.splitSentences(text);
 
 		for (TextSentence textSentence : textSentences) {
 			textSentence.patternName = patternFinder.findPattern(textSentence.sentence);
 			textSentence.taggedWords = tokenizer.tokenizeText(textSentence.sentence);
-
+			
 			// determine subject
 			determineSubject(textSentence);
 			//findet das erste Nomen, sollte aber einen zusammenhängenden Terminus wie "Marwin Lebensky" erkennen können
@@ -47,9 +48,10 @@ public class TextSentenceProcessor {
 			determineObject(textSentence);
 
 			// determine properties/relations
+			
 		}
 	}
-
+	
 	private void determineSubject(TextSentence textSentence) {
 		ArrayList<TextWord> words = textSentence.taggedWords;
  		for (int i = 0; i<words.size(); i++) {

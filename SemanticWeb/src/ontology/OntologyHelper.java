@@ -19,7 +19,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
 public class OntologyHelper {
 
-	public final String nameSpace = "http://ontology/test#";
+	public final String nameSpace = "http://ontology/sw#";
 	public OntModel model;
 	public HashMap<String,Resource> resources;
 	ArrayList<OntClass> classes = null;

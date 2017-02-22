@@ -36,8 +36,18 @@ public class TextToOntologyWeaver {
 			for(int i = 0; i<sentence.taggedWords.size(); i++)
 				System.out.print("\""+sentence.taggedWords.get(i).word+"\" ");
 			System.out.println();
+			
+			cleanString(sentence);
+			
 			constructOntologyResources(sentence);
 		}
+		ontologyHelper.writeOntologyToDisk();
+	}
+	
+	public void cleanString(TextSentence sentence){
+		sentence.subject.className = sentence.subject.className.replace(".", "");
+		sentence.object.className = sentence.object.className.replace(".", "");
+		sentence.verb.originalVerb = sentence.verb.originalVerb.replace(".", "");
 	}
 	
 	public void constructOntologyResources(TextSentence sentence){
@@ -58,10 +68,6 @@ public class TextToOntologyWeaver {
 			if(abstractProperties instanceof TextConceptObjectProperty){
 				TextConceptObjectProperty property  = (TextConceptObjectProperty) abstractProperties;
 				OntClass rangeClass = ontologyHelper.createClass(property.range.className);
-			}
-			if(abstractProperties instanceof TextConceptDatatypeProperty){
-				TextConceptDatatypeProperty property  = (TextConceptDatatypeProperty) abstractProperties;
-				OntClass rangeClass = ontologyHelper.createClass(property.range);
 			}
 		}
 		
@@ -92,11 +98,6 @@ public class TextToOntologyWeaver {
 				ontologyHelper.createIndividual(sentence.subject.className,individual.individualName);
 			}
 		}
-		
-		
-		
-		// create singularity
-
 		
 		
 	}

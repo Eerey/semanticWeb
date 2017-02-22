@@ -2,33 +2,44 @@
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
-    xmlns:j.0="http://ontology/test#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:j.0="http://ontology/sw#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
-  <owl:Class rdf:about="http://ontology/test#Animal"/>
-  <owl:Class rdf:about="http://ontology/test#Doge">
-    <j.0:dogName>beschreibender Kram</j.0:dogName>
-    <rdfs:subClassOf rdf:resource="http://ontology/test#Animal"/>
-  </owl:Class>
-  <owl:Class rdf:about="http://ontology/test#Doberman">
-    <owl:disjointWith>
-      <owl:Class rdf:about="http://ontology/test#ShibaInu"/>
-    </owl:disjointWith>
-    <rdfs:subClassOf rdf:resource="http://ontology/test#Doge"/>
-  </owl:Class>
-  <owl:Class rdf:about="http://ontology/test#muzzle"/>
-  <owl:Class rdf:about="http://ontology/test#ShibaInu">
-    <owl:disjointWith rdf:resource="http://ontology/test#Doberman"/>
-    <rdfs:subClassOf rdf:resource="http://ontology/test#Doge"/>
-  </owl:Class>
-  <owl:ObjectProperty rdf:about="http://ontology/test#canBarkWith">
-    <rdfs:label xml:lang="de">Kann bellen. Wuff!</rdfs:label>
-    <rdfs:range rdf:resource="http://ontology/test#muzzle"/>
-    <rdfs:domain rdf:resource="http://ontology/test#Doge"/>
+  <owl:Class rdf:about="http://ontology/sw#dog"/>
+  <owl:Class rdf:about="http://ontology/sw#Person"/>
+  <owl:Class rdf:about="http://ontology/sw#parrot"/>
+  <owl:Class rdf:about="http://ontology/sw#dictionary"/>
+  <owl:ObjectProperty rdf:about="http://ontology/sw#own">
+    <rdfs:label xml:lang="de">own</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/sw#dog"/>
+    <rdfs:domain rdf:resource="http://ontology/sw#Person"/>
   </owl:ObjectProperty>
-  <owl:DatatypeProperty rdf:about="http://ontology/test#dogName">
-    <rdfs:label xml:lang="de">Kann bellen. Wuff!</rdfs:label>
+  <owl:ObjectProperty rdf:about="http://ontology/sw#walk">
+    <rdfs:label xml:lang="de">walk</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/sw#parrot"/>
+    <rdfs:domain rdf:resource="http://ontology/sw#dog"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://ontology/sw#be">
+    <rdfs:label xml:lang="de">be</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/sw#parrot"/>
+    <rdfs:domain rdf:resource="http://ontology/sw#Person"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://ontology/sw#have">
+    <rdfs:label xml:lang="de">have</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/sw#dictionary"/>
+    <rdfs:domain rdf:resource="http://ontology/sw#Person"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://ontology/sw#surname">
+    <rdfs:domain rdf:resource="http://ontology/sw#Person"/>
+    <rdfs:label xml:lang="de">surname</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="http://ontology/test#Doge"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://ontology/sw#gender">
+    <rdfs:domain rdf:resource="http://ontology/sw#Person"/>
+    <rdfs:label xml:lang="de">gender</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <j.0:Person rdf:about="http://ontology/sw#Marwin"/>
+  <j.0:Person rdf:about="http://ontology/sw#Maria"/>
+  <j.0:Person rdf:about="http://ontology/sw#Peter"/>
 </rdf:RDF>
