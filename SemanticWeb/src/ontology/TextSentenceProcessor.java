@@ -9,14 +9,14 @@ import ontology.model.TextSentence;
 import ontology.model.TextWord;
 import ontology.opennlp.NameFinder;
 import ontology.opennlp.SentenceSplitter;
-import ontology.opennlp.WordTokenizer;
+import ontology.opennlp.WordTagger;
 
 public class TextSentenceProcessor {
 
 	public ArrayList<TextSentence> textSentences;
 	private TextSentencePatternFinder patternFinder;
 	private Dictionary dictionary = null;
-	private WordTokenizer tokenizer = null;
+	private WordTagger tokenizer = null;
 	private NameFinder personNameFinder;
 	private SentenceSplitter sentenceSplitter;
 	
@@ -25,7 +25,7 @@ public class TextSentenceProcessor {
 		sentenceSplitter = SentenceSplitter.getSentenceSplitter();
 		patternFinder = new TextSentencePatternFinder();
 		dictionary = new Dictionary();
-		tokenizer = WordTokenizer.getWordTokenizer();
+		tokenizer = WordTagger.getWordTokenizer();
 		personNameFinder = NameFinder.getPersonNameFinder();
 	}
 

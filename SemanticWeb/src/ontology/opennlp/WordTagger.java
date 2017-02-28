@@ -10,12 +10,12 @@ import opennlp.tools.tokenize.WhitespaceTokenizer;
 
 // http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
 //Tabelle unterhalb der Klasse
-public class WordTokenizer {
+public class WordTagger {
 
-	private static WordTokenizer wordTokenizer;
+	private static WordTagger wordTagger;
 	private POSTaggerME tagger;
 
-	private WordTokenizer() {
+	private WordTagger() {
 		try {
 			InputStream inputStream = new OpenNLPRessourceLoader("en-pos-maxent.bin").getRessource();
 			POSModel model = new POSModel(inputStream);
@@ -49,10 +49,10 @@ public class WordTokenizer {
 		return textWords;
 	}
 	
-	public static WordTokenizer getWordTokenizer(){
-		if(wordTokenizer == null)
-			wordTokenizer = new WordTokenizer();
-		return wordTokenizer;
+	public static WordTagger getWordTokenizer(){
+		if(wordTagger == null)
+			wordTagger = new WordTagger();
+		return wordTagger;
 	}
 }
 
