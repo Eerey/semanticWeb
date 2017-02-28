@@ -3,8 +3,6 @@ package ontology;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.jena.ontology.DatatypeProperty;
-import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
@@ -23,25 +21,33 @@ public class TextToOntologyWeaver {
 	public OntologyHelper ontologyHelper;
 	public HashMap<String,Resource> resources;
 	
-	public TextToOntologyWeaver(String input){
-		ontologyHelper = new OntologyHelper();
+	public TextToOntologyWeaver(String input, String ontologyName){
+		ontologyHelper = new OntologyHelper(ontologyName);
 		
 		TextSentenceProcessor processor = new TextSentenceProcessor();
 		processor.process(input);
 		
 		this.sentences = processor.textSentences; //kann bis jetzt nur einen Satz
 		for(TextSentence sentence : sentences){
-			System.out.println(sentence.subject.className+":"+sentence.verb.infinitive+":"+sentence.object.className);
-			System.out.print("Unused words: ");
-			for(int i = 0; i<sentence.taggedWords.size(); i++)
-				System.out.print("\""+sentence.taggedWords.get(i).word+"\" ");
-			System.out.println();
+			printInformation(sentence);
 			
 			cleanString(sentence);
 			
 			constructOntologyResources(sentence);
 		}
+		writeOntologyToDisk();
+	}
+
+	public void writeOntologyToDisk() {
 		ontologyHelper.writeOntologyToDisk();
+	}
+
+	private void printInformation(TextSentence sentence) {
+		System.out.println(sentence.subject.className+":"+sentence.verb.infinitive+":"+sentence.object.className);
+		System.out.print("Unused words: ");
+		for(int i = 0; i<sentence.taggedWords.size(); i++)
+			System.out.print("\""+sentence.taggedWords.get(i).word+"\" ");
+		System.out.println();
 	}
 	
 	public void cleanString(TextSentence sentence){
@@ -61,13 +67,14 @@ public class TextToOntologyWeaver {
 		verbObjectProperty.addRange(object);
 		verbObjectProperty.addLabel(sentence.verb.infinitive, "de");
 		
-		OntProperty verbObjectPropertyInverse = verbObjectProperty.getInverse();
+		//TODO Invers-Property müsste, wenn Sie gebraucht wird auch abgespeichert werden
+		verbObjectProperty.getInverse();
 		
 		// create range OntClasses
 		for(TextConceptAbstractProperty<?> abstractProperties : sentence.subject.properties.values()){
 			if(abstractProperties instanceof TextConceptObjectProperty){
 				TextConceptObjectProperty property  = (TextConceptObjectProperty) abstractProperties;
-				OntClass rangeClass = ontologyHelper.createClass(property.range.className);
+				ontologyHelper.createClass(property.range.className);
 			}
 		}
 		

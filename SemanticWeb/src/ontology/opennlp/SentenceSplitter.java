@@ -1,6 +1,5 @@
 package ontology.opennlp;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -12,17 +11,16 @@ public class SentenceSplitter {
 
 	private static SentenceSplitter sentenceSplitter;
 	private SentenceDetectorME detector;
-	private WordTokenizer wordTokenizer;
 
 	private SentenceSplitter(){
 		try {
-			InputStream inputStream = new FileInputStream("opennlp-bins/en-sent.bin");
+			InputStream inputStream = new OpenNLPRessourceLoader("en-sent.bin").getRessource();
 			SentenceModel model = new SentenceModel(inputStream);
 			// Instantiating POSTaggerME class
 			detector = new SentenceDetectorME(model);
-			wordTokenizer = WordTokenizer.getWordTokenizer();
 		} catch (Exception e) {
 			System.out.println("Text parser could not be initialized");
+			e.printStackTrace();
 			System.exit(4);
 		}
 	}

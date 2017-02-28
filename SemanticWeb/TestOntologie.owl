@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:j.0="http://ontology/sw/TestOntologie#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Class rdf:about="http://ontology/sw/TestOntologie#dictionary"/>
+  <owl:Class rdf:about="http://ontology/sw/TestOntologie#dog"/>
+  <owl:Class rdf:about="http://ontology/sw/TestOntologie#parrot"/>
+  <owl:Class rdf:about="http://ontology/sw/TestOntologie#Person"/>
+  <owl:ObjectProperty rdf:about="http://ontology/sw/TestOntologie#walk">
+    <rdfs:label xml:lang="de">walk</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/sw/TestOntologie#parrot"/>
+    <rdfs:domain rdf:resource="http://ontology/sw/TestOntologie#dog"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://ontology/sw/TestOntologie#be">
+    <rdfs:label xml:lang="de">be</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/sw/TestOntologie#parrot"/>
+    <rdfs:domain rdf:resource="http://ontology/sw/TestOntologie#Person"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://ontology/sw/TestOntologie#have">
+    <rdfs:label xml:lang="de">have</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/sw/TestOntologie#dictionary"/>
+    <rdfs:domain rdf:resource="http://ontology/sw/TestOntologie#Person"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://ontology/sw/TestOntologie#own">
+    <rdfs:label xml:lang="de">own</rdfs:label>
+    <rdfs:range rdf:resource="http://ontology/sw/TestOntologie#dog"/>
+    <rdfs:domain rdf:resource="http://ontology/sw/TestOntologie#Person"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://ontology/sw/TestOntologie#gender">
+    <rdfs:domain rdf:resource="http://ontology/sw/TestOntologie#Person"/>
+    <rdfs:label xml:lang="de">gender</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://ontology/sw/TestOntologie#surname">
+    <rdfs:domain rdf:resource="http://ontology/sw/TestOntologie#Person"/>
+    <rdfs:label xml:lang="de">surname</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <j.0:Person rdf:about="http://ontology/sw/TestOntologie#Marwin"/>
+  <j.0:Person rdf:about="http://ontology/sw/TestOntologie#Maria"/>
+  <j.0:Person rdf:about="http://ontology/sw/TestOntologie#Peter"/>
+</rdf:RDF>

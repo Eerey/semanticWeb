@@ -1,6 +1,5 @@
 package ontology.opennlp;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 import ontology.model.TextSentence;
@@ -19,9 +18,8 @@ public class NameFinder {
 
 	private NameFinder(String binFile) {
 		try {
-			InputStream inputStream = new FileInputStream("opennlp-bins/" + binFile);
+			InputStream inputStream = new OpenNLPRessourceLoader(binFile).getRessource();
 			TokenNameFinderModel model = new TokenNameFinderModel(inputStream);
-
 			// Instantiating POSTaggerME class
 			nameFinder = new NameFinderME(model);
 		} catch (Exception e) {

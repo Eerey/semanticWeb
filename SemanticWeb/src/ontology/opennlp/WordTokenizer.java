@@ -1,6 +1,5 @@
 package ontology.opennlp;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ public class WordTokenizer {
 
 	private WordTokenizer() {
 		try {
-			InputStream inputStream = new FileInputStream("opennlp-bins/en-pos-maxent.bin");
+			InputStream inputStream = new OpenNLPRessourceLoader("en-pos-maxent.bin").getRessource();
 			POSModel model = new POSModel(inputStream);
 			// Instantiating POSTaggerME class
 			tagger = new POSTaggerME(model);

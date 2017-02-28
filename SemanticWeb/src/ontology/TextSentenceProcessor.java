@@ -6,7 +6,6 @@ import ontology.model.TextConcept;
 import ontology.model.TextConceptDatatypeProperty;
 import ontology.model.TextConceptIndividual;
 import ontology.model.TextSentence;
-import ontology.model.TextVerb;
 import ontology.model.TextWord;
 import ontology.opennlp.NameFinder;
 import ontology.opennlp.SentenceSplitter;

@@ -19,13 +19,16 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
 public class OntologyHelper {
 
-	public final String nameSpace = "http://ontology/sw#";
+	private String nameSpace = "http://ontology/sw/";
+	private String ontologyName;
 	public OntModel model;
 	public HashMap<String,Resource> resources;
 	ArrayList<OntClass> classes = null;
 
-	public OntologyHelper() {
+	public OntologyHelper(String ontologyName) {
 		resources = new HashMap<>();
+		this.ontologyName = ontologyName;
+		nameSpace += ontologyName + "#";
 		initOntologyModel();
 	}
 
@@ -86,11 +89,11 @@ public class OntologyHelper {
 
 	public void writeOntologyToDisk() {
 		FileWriter out = null;
-		File file = new File("mymodel.owl");
+		File file = new File("output/"+ontologyName+".owl");
 		try {
 			try {
 				out = new FileWriter(file);
-				System.out.println(file.getAbsolutePath());
+				System.out.println("Ihre Ontologie wurde unter \""+file.getAbsolutePath()+"\" abgespeichert.");
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -108,14 +111,13 @@ public class OntologyHelper {
 
 	public void readClassesAndProperties() {
 
-		ExtendedIterator classIter = model.listClasses();
+		ExtendedIterator<?> classIter = model.listClasses();
 		while (classIter.hasNext()) {
 			OntClass ontClass = (OntClass) classIter.next();
 
 			String uriClassString = "";
 			String uriDisjointWith = "";
-			String uriLabel = "";
-			ExtendedIterator ei = null;
+			ExtendedIterator<?> ei = null;
 			try {
 				uriClassString = ontClass.getURI();
 				uriDisjointWith = (ontClass.getDisjointWith().getURI() == null) ? null : ontClass.getDisjointWith().getURI();

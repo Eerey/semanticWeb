@@ -1,7 +1,6 @@
 package ontology.test;
 
 import org.apache.jena.ontology.DatatypeProperty;
-import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Property;
@@ -22,14 +21,14 @@ public class OntologyHelperTest {
 	private OntologyHelper ontologyHelper;
 	
 	public OntologyHelperTest() {
-		ontologyHelper = new OntologyHelper();
+		ontologyHelper = new OntologyHelper("NewOntology");
 		testSequence01();
 		ontologyHelper.printOntology();
 		ontologyHelper.writeOntologyToDisk();
 	}
 	
 	public void testSequence01() {
-		OntClass animal = ontologyHelper.createClass("Animal");
+		ontologyHelper.createClass("Animal");
 		OntClass doge = ontologyHelper.createClass("Doge");
 		OntClass shibaInu = ontologyHelper.createClass("ShibaInu");
 		OntClass doberman = ontologyHelper.createClass("Doberman");
@@ -51,8 +50,7 @@ public class OntologyHelperTest {
 
 		shibaInu.setDisjointWith(doberman);
 		doberman.setDisjointWith(shibaInu);
-		// doberman.setDisjointWith(animal);
-		Individual i = ontologyHelper.createIndividual("Doberman", "MasterBlaster");
+		ontologyHelper.createIndividual("Doberman", "MasterBlaster");
 
 		// model.createStatement(doge,bark,"Loud Bark");
 
