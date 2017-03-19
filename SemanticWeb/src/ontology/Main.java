@@ -8,7 +8,7 @@ public class Main {
 		}else if(args.length == 2){
 			createOntologyOutOfFile(args);
 		}else if(args.length == 3 && args[2].equals("-s")){
-			createOntologyOutOfString(args);
+			createOntologyOutOfString(args[0],args[1]);
 		}else{
 			System.out.println("Bitte rufen Sie das Programm mittels dem \"help\" Parameter auf.");
 		}
@@ -31,11 +31,12 @@ public class Main {
 		FileLoader fileLoader = new FileLoader(args[0]);
 		String fileContent = fileLoader.getContent();
 		System.out.println("Datei wurde ausgelesen");
-		new TextToOntologyWeaver(fileContent, args[1]);
+		createOntologyOutOfString(fileContent, args[1]);
 	}
 
-	private static void createOntologyOutOfString(String[] args) {
-		new TextToOntologyWeaver(args[0], args[1]);
+	private static void createOntologyOutOfString(String inputString, String ontologyName) {
+		Orchestrator orchestrator = new Orchestrator(ontologyName);
+		orchestrator.process(inputString);
 	}
 
 }

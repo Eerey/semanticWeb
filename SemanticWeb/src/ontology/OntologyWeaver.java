@@ -1,12 +1,10 @@
 package ontology;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.XSD;
 
 import ontology.model.TextConceptAbstractProperty;
@@ -15,50 +13,28 @@ import ontology.model.TextConceptIndividual;
 import ontology.model.TextConceptObjectProperty;
 import ontology.model.TextSentence;
 
-public class TextToOntologyWeaver {
+public class OntologyWeaver {
 
-	public ArrayList<TextSentence> sentences;
-	public OntologyHelper ontologyHelper;
-	public HashMap<String,Resource> resources;
+	private OntologyHelper ontologyHelper;
+	private String ontologyName;
 	
-	public TextToOntologyWeaver(String input, String ontologyName){
-		TextSentenceProcessor processor = new TextSentenceProcessor();
-		processor.process(input);
-		
-		this.sentences = processor.textSentences; //kann bis jetzt nur einen Satz
-
+	public OntologyWeaver(String ontologyName){
+		this.ontologyName = ontologyName;
+	}
+	
+	public void process(ArrayList<TextSentence> sentences){
 		ontologyHelper = new OntologyHelper(ontologyName);
-		
 		for(TextSentence sentence : sentences){
-			printInformation(sentence);
-			
-			cleanString(sentence);
-			
 			constructOntologyResources(sentence);
 		}
-		
 		writeOntologyToDisk();
 	}
 
-	public void writeOntologyToDisk() {
+	private void writeOntologyToDisk() {
 		ontologyHelper.writeOntologyToDisk();
 	}
-
-	private void printInformation(TextSentence sentence) {
-		System.out.println(sentence.subject.className+":"+sentence.verb.infinitive+":"+sentence.object.className);
-		System.out.print("Unused words: ");
-		for(int i = 0; i<sentence.taggedWords.size(); i++)
-			System.out.print("\""+sentence.taggedWords.get(i).word+"\" ");
-		System.out.println();
-	}
 	
-	public void cleanString(TextSentence sentence){
-		sentence.subject.className = sentence.subject.className.replace(".", "");
-		sentence.object.className = sentence.object.className.replace(".", "");
-		sentence.verb.originalVerb = sentence.verb.originalVerb.replace(".", "");
-	}
-	
-	public void constructOntologyResources(TextSentence sentence){
+	private void constructOntologyResources(TextSentence sentence){
 		// create classes
 		OntClass subject = ontologyHelper.createClass(sentence.subject.className);
 		OntClass object = ontologyHelper.createClass(sentence.object.className);
@@ -67,7 +43,7 @@ public class TextToOntologyWeaver {
 		ObjectProperty verbObjectProperty = ontologyHelper.createObjectProperty(sentence.verb.infinitive);
 		verbObjectProperty.addDomain(subject);
 		verbObjectProperty.addRange(object);
-		verbObjectProperty.addLabel(sentence.verb.infinitive, "de");
+		verbObjectProperty.addLabel(sentence.verb.infinitive, "en");
 		
 		//TODO Invers-Property müsste, wenn Sie gebraucht wird auch abgespeichert werden
 		verbObjectProperty.getInverse();
@@ -97,7 +73,7 @@ public class TextToOntologyWeaver {
 					default: break;
 				}
 			}
-			newObjectProperty.addLabel(abstractProperties.label, "de");
+			newObjectProperty.addLabel(abstractProperties.label, "en");
 			newObjectProperty.addDomain(ontologyHelper.getResource(abstractProperties.domain));
 		}
 

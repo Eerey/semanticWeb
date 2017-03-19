@@ -11,19 +11,17 @@ import ontology.opennlp.NameFinder;
 import ontology.opennlp.SentenceSplitter;
 import ontology.opennlp.WordTagger;
 
-public class TextSentenceProcessor {
+public class TextProcessor {
 
 	public ArrayList<TextSentence> textSentences;
-	private TextSentencePatternFinder patternFinder;
 	private Dictionary dictionary = null;
 	private WordTagger tokenizer = null;
 	private NameFinder personNameFinder;
 	private SentenceSplitter sentenceSplitter;
 	
 
-	public TextSentenceProcessor() {
+	public TextProcessor() {
 		sentenceSplitter = SentenceSplitter.getSentenceSplitter();
-		patternFinder = new TextSentencePatternFinder();
 		dictionary = new Dictionary();
 		tokenizer = WordTagger.getWordTokenizer();
 		personNameFinder = NameFinder.getPersonNameFinder();
@@ -34,7 +32,7 @@ public class TextSentenceProcessor {
 		textSentences = sentenceSplitter.splitSentences(text);
 
 		for (TextSentence textSentence : textSentences) {
-			textSentence.patternName = patternFinder.findPattern(textSentence.sentence);
+			
 			textSentence.taggedWords = tokenizer.tokenizeText(textSentence.sentence);
 			
 			// determine subject
@@ -47,7 +45,9 @@ public class TextSentenceProcessor {
 			determineObject(textSentence);
 
 			// determine properties/relations
-			
+
+			cleanString(textSentence);
+			printInformation(textSentence);
 		}
 	}
 	
@@ -113,5 +113,19 @@ public class TextSentenceProcessor {
 			}
 		}
 	}
+	
+	public void cleanString(TextSentence sentence){
+		sentence.subject.className = sentence.subject.className.replace(".", "");
+		sentence.object.className = sentence.object.className.replace(".", "");
+		sentence.verb.originalVerb = sentence.verb.originalVerb.replace(".", "");
+	}
 
+	private void printInformation(TextSentence sentence) {
+		System.out.println(sentence.subject.className+":"+sentence.verb.infinitive+":"+sentence.object.className);
+		System.out.print("Unused words: ");
+		for(int i = 0; i<sentence.taggedWords.size(); i++)
+			System.out.print("\""+sentence.taggedWords.get(i).word+"\" ");
+		System.out.println();
+	}
+	
 }

@@ -1,13 +1,11 @@
 package ontology.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TextConcept {
 
 	public String className;
 	public HashMap<String, TextConceptAbstractProperty<?>> properties;
-	public ArrayList<TextConcept> referenceConcept;
 	public HashMap<String, TextConceptIndividual> individuals;
 
 	public TextConcept() {
