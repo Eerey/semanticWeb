@@ -33,7 +33,7 @@ public class OntologyHelper {
 	}
 
 	public void initOntologyModel() {
-		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RDFS_INF);
+		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_LITE_MEM);
 		String uri = nameSpace;
 		try {
 			model.read(uri, null);

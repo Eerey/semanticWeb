@@ -22,12 +22,13 @@ public class TextToOntologyWeaver {
 	public HashMap<String,Resource> resources;
 	
 	public TextToOntologyWeaver(String input, String ontologyName){
-		ontologyHelper = new OntologyHelper(ontologyName);
-		
 		TextSentenceProcessor processor = new TextSentenceProcessor();
 		processor.process(input);
 		
 		this.sentences = processor.textSentences; //kann bis jetzt nur einen Satz
+
+		ontologyHelper = new OntologyHelper(ontologyName);
+		
 		for(TextSentence sentence : sentences){
 			printInformation(sentence);
 			
@@ -35,6 +36,7 @@ public class TextToOntologyWeaver {
 			
 			constructOntologyResources(sentence);
 		}
+		
 		writeOntologyToDisk();
 	}
 
