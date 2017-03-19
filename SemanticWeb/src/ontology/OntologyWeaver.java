@@ -17,14 +17,14 @@ public class OntologyWeaver {
 
 	private OntologyHelper ontologyHelper;
 	private String ontologyName;
-	
-	public OntologyWeaver(String ontologyName){
+
+	public OntologyWeaver(String ontologyName) {
 		this.ontologyName = ontologyName;
 	}
-	
-	public void process(ArrayList<TextSentence> sentences){
+
+	public void process(ArrayList<TextSentence> sentences) {
 		ontologyHelper = new OntologyHelper(ontologyName);
-		for(TextSentence sentence : sentences){
+		for (TextSentence sentence : sentences) {
 			constructOntologyResources(sentence);
 		}
 		writeOntologyToDisk();
@@ -33,44 +33,48 @@ public class OntologyWeaver {
 	private void writeOntologyToDisk() {
 		ontologyHelper.writeOntologyToDisk();
 	}
-	
-	private void constructOntologyResources(TextSentence sentence){
+
+	private void constructOntologyResources(TextSentence sentence) {
 		// create classes
 		OntClass subject = ontologyHelper.createClass(sentence.subject.className);
 		OntClass object = ontologyHelper.createClass(sentence.object.className);
-		
+
 		// create object properties
 		ObjectProperty verbObjectProperty = ontologyHelper.createObjectProperty(sentence.verb.infinitive);
 		verbObjectProperty.addDomain(subject);
 		verbObjectProperty.addRange(object);
 		verbObjectProperty.addLabel(sentence.verb.infinitive, "en");
-		
-		//TODO Invers-Property müsste, wenn Sie gebraucht wird auch abgespeichert werden
+
+		// TODO Invers-Property müsste, wenn Sie gebraucht wird auch
+		// abgespeichert werden
 		verbObjectProperty.getInverse();
-		
+
 		// create range OntClasses
-		for(TextConceptAbstractProperty<?> abstractProperties : sentence.subject.properties.values()){
-			if(abstractProperties instanceof TextConceptObjectProperty){
-				TextConceptObjectProperty property  = (TextConceptObjectProperty) abstractProperties;
+		for (TextConceptAbstractProperty<?> abstractProperties : sentence.subject.properties.values()) {
+			if (abstractProperties instanceof TextConceptObjectProperty) {
+				TextConceptObjectProperty property = (TextConceptObjectProperty) abstractProperties;
 				ontologyHelper.createClass(property.range.className);
 			}
 		}
-		
+
 		// create Object Properties (range classes are already available)
-		for(TextConceptAbstractProperty<?> abstractProperties : sentence.subject.properties.values()){
+		for (TextConceptAbstractProperty<?> abstractProperties : sentence.subject.properties.values()) {
 			OntProperty newObjectProperty = null;
-			if(abstractProperties instanceof TextConceptObjectProperty){
+			if (abstractProperties instanceof TextConceptObjectProperty) {
 				newObjectProperty = ontologyHelper.createObjectProperty(abstractProperties.label);
-				newObjectProperty.addRange(ontologyHelper.getResource(((TextConceptObjectProperty)abstractProperties).range.className));
+				newObjectProperty.addRange(ontologyHelper.getResource(((TextConceptObjectProperty) abstractProperties).range.className));
 			}
-			if(abstractProperties instanceof TextConceptDatatypeProperty){
+			if (abstractProperties instanceof TextConceptDatatypeProperty) {
 				newObjectProperty = ontologyHelper.createDatatypeProperty(abstractProperties.label);
-				switch (((TextConceptDatatypeProperty)abstractProperties).range){
-					case "String": newObjectProperty.addRange(XSD.xstring);
-						break;
-					case "Integer": newObjectProperty.addRange(XSD.integer);
-						break;
-					default: break;
+				switch (((TextConceptDatatypeProperty) abstractProperties).range) {
+				case "String":
+					newObjectProperty.addRange(XSD.xstring);
+					break;
+				case "Integer":
+					newObjectProperty.addRange(XSD.integer);
+					break;
+				default:
+					break;
 				}
 			}
 			newObjectProperty.addLabel(abstractProperties.label, "en");
@@ -78,13 +82,12 @@ public class OntologyWeaver {
 		}
 
 		// create individuals
-		if (!sentence.subject.individuals.values().isEmpty()){
-			for (TextConceptIndividual individual : sentence.subject.individuals.values()){
-				ontologyHelper.createIndividual(sentence.subject.className,individual.individualName);
+		if (!sentence.subject.individuals.values().isEmpty()) {
+			for (TextConceptIndividual individual : sentence.subject.individuals.values()) {
+				ontologyHelper.createIndividual(sentence.subject.className, individual.individualName);
 			}
 		}
-		
-		
+
 	}
-	
+
 }

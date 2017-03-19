@@ -15,8 +15,7 @@ public class Orchestrator {
 	}
 	
 	public void process(String input){
-		processor.process(input);
-		ArrayList<TextSentence> sentences = processor.textSentences;
+		ArrayList<TextSentence> sentences = processor.process(input);
 		ontologyWeaver.process(sentences);
 	}
 

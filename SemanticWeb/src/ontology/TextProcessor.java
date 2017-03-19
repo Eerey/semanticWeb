@@ -28,7 +28,7 @@ public class TextProcessor {
 	}
 
 	
-	public void process(String text) {
+	public ArrayList<TextSentence> process(String text) {
 		textSentences = sentenceSplitter.splitSentences(text);
 
 		for (TextSentence textSentence : textSentences) {
@@ -49,6 +49,7 @@ public class TextProcessor {
 			cleanString(textSentence);
 			printInformation(textSentence);
 		}
+		return textSentences;
 	}
 	
 	private void determineSubject(TextSentence textSentence) {
